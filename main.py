@@ -11,7 +11,7 @@ except: from config import proxies, WEB_PORT, LLM_MODEL
 PORT = find_free_port() if WEB_PORT <= 0 else WEB_PORT
 
 initial_prompt = "Serve me as a writing and programming assistant."
-title_html = """<h1 align="center">ChatGPT 学术优化</h1>"""
+title_html = """<h1 align="center">ChatGPT 私人助手：科研、科普、科幻</h1>"""
 
 # 问询记录, python 版本建议3.9+（越新越好）
 import logging
@@ -54,6 +54,8 @@ with gr.Blocks(theme=set_theme, analytics_enabled=False) as demo:
             with gr.Row():
                 from check_proxy import check_proxy
                 statusDisplay = gr.Markdown(f"Tip: 按Enter提交, 按Shift+Enter换行. \nNetwork: {check_proxy(proxies)}\nModel: {LLM_MODEL}")
+            with gr.Row():
+                gr.Markdown("使用 ChatGPT 三原则：\n1.警惕胡说八道\n2.尽量使用 prompt\n3.借鉴而非照搬\n人类啊，认识你自己！")
             with gr.Row():
                 for k in functional:
                     variant = functional[k]["Color"] if "Color" in functional[k] else "secondary"

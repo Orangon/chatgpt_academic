@@ -1,7 +1,9 @@
-# 'primary' 颜色对应 theme.py 中的 primary_hue
-# 'secondary' 颜色对应 theme.py 中的 neutral_hue
-# 'stop' 颜色对应 theme.py 中的 color_er
-# 默认按钮颜色是 secondary
+# """
+# 'primary' for main call-to-action, 
+# 'secondary' for a more subdued style, 
+# 'stop' for a stop button.
+# """
+
 
 def get_functionals():
     return {
@@ -52,4 +54,16 @@ not a Chinese-Chinese translator or an English-English translator. Below is the 
             "Suffix": "\n```\n",
             "Color": "secondary",
         },
+        "天文科普": {
+            "Prefix": "作为一名天文科普工作者的助理，你的任务是清楚、明确、生动地解释下面对话中提出的每一个天文问题，同时尽量使用比喻、打比方的方式讲述，并且说明比喻中喻体和本体之间的共同点，使中学生也能轻松听懂。请解释以下问题：\n\n",
+            "Suffix": "",
+            "Color": "primary",
+        },
+        "地理科普": {
+            "Prefix": "作为一名地理科普工作者的助理，你的任务是清楚、明确、生动地解释下面对话中提出的每一个地理科学问题，同时尽量使用比喻或打比方的方式讲述，并且说明喻体和本体之间的共同点，使中学生也能轻松听懂。请解释以下问题：\n\n",
+            "Suffix": "",
+            "Color": "primary",
+        },
     }
+
+
