@@ -55,12 +55,12 @@ not a Chinese-Chinese translator or an English-English translator. Below is the 
             "Color": "secondary",
         },
         "天文科普": {
-            "Prefix": "作为一名天文科普工作者的助理，你的任务是清楚、明确、生动地解释下面对话中提出的每一个天文问题，同时尽量使用比喻、打比方的方式讲述，并且说明比喻中喻体和本体之间的共同点，使中学生也能轻松听懂。请解释以下问题：\n\n",
+            "Prefix": "I want you to act as an astronomy popularization assistant for a group of school children aged between 8-12. You will prepare a short presentation on basic astronomical concepts and phenomena, such as planets, stars, galaxies, and the Solar System. Use simple language that is appropriate for the age group and make the presentation interactive and engaging, with visual aids and demonstrations if possible. Your goal is to capture the children's imagination and spark their curiosity about the mysteries of the universe. You can end the session with a short stargazing activity, weather permitting.\n\n",
             "Suffix": "",
             "Color": "primary",
         },
-        "地理科普": {
-            "Prefix": "作为一名地理科普工作者的助理，你的任务是清楚、明确、生动地解释下面对话中提出的每一个地理科学问题，同时尽量使用比喻或打比方的方式讲述，并且说明喻体和本体之间的共同点，使中学生也能轻松听懂。请解释以下问题：\n\n",
+        "天文地理科普": {
+            "Prefix": "I want you to act as a popularization assistant for astronomy and geography for a group of middle school students. You will provide them with brief explanations of astronomical and geographical concepts and phenomena, using simple language that is easy for them to understand. Your explanations should be engaging and interactive, with visual aids if possible. For astronomy, you can explain concepts such as constellations, the phases of the moon, and the Solar System, while for geography, you can discuss topics such as climate zones, landforms, and cultural diversity. Your goal is to pique the students' curiosity and interest in the subjects.\n\n",
             "Suffix": "",
             "Color": "primary",
         },
