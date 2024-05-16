@@ -28,7 +28,7 @@
 | crazy_functions\批量Markdown翻译.py | 将指定目录下的Markdown文件进行中英文翻译 |
 | crazy_functions\批量总结PDF文档.py | 对PDF文件进行切割和摘要生成 |
 | crazy_functions\批量总结PDF文档pdfminer.py | 对PDF文件进行文本内容的提取和摘要生成 |
-| crazy_functions\批量翻译PDF文档_多线程.py | 将指定目录下的PDF文件进行中英文翻译 |
+| crazy_functions\PDF批量翻译.py | 将指定目录下的PDF文件进行中英文翻译 |
 | crazy_functions\理解PDF文档内容.py | 对PDF文件进行摘要生成和问题解答 |
 | crazy_functions\生成函数注释.py | 自动生成Python函数的注释 |
 | crazy_functions\联网的ChatGPT.py | 使用网络爬虫和ChatGPT模型进行聊天回答 |
@@ -38,20 +38,20 @@
 | crazy_functions\读文章写摘要.py | 对论文进行解析和全文摘要生成 |
 | crazy_functions\谷歌检索小助手.py | 提供谷歌学术搜索页面中相关文章的元数据信息。 |
 | crazy_functions\高级功能函数模板.py | 使用Unsplash API发送相关图片以回复用户的输入。 |
-| request_llm\bridge_all.py | 基于不同LLM模型进行对话。 |
-| request_llm\bridge_chatglm.py | 使用ChatGLM模型生成回复，支持单线程和多线程方式。 |
-| request_llm\bridge_chatgpt.py | 基于GPT模型完成对话。 |
-| request_llm\bridge_jittorllms_llama.py | 使用JittorLLMs模型完成对话，支持单线程和多线程方式。 |
-| request_llm\bridge_jittorllms_pangualpha.py | 使用JittorLLMs模型完成对话，基于多进程和多线程方式。 |
-| request_llm\bridge_jittorllms_rwkv.py | 使用JittorLLMs模型完成聊天功能，提供包括历史信息、参数调节等在内的多个功能选项。 |
-| request_llm\bridge_moss.py | 加载Moss模型完成对话功能。 |
-| request_llm\bridge_newbing.py | 使用Newbing聊天机器人进行对话，支持单线程和多线程方式。 |
-| request_llm\bridge_newbingfree.py | 基于Bing chatbot API实现聊天机器人的文本生成功能。 |
-| request_llm\bridge_stackclaude.py | 基于Slack API实现Claude与用户的交互。 |
-| request_llm\bridge_tgui.py | 通过websocket实现聊天机器人与UI界面交互。 |
-| request_llm\edge_gpt.py | 调用Bing chatbot API提供聊天机器人服务。 |
-| request_llm\edge_gpt_free.py | 实现聊天机器人API，采用aiohttp和httpx工具库。 |
-| request_llm\test_llms.py | 对llm模型进行单元测试。 |
+| request_llms\bridge_all.py | 基于不同LLM模型进行对话。 |
+| request_llms\bridge_chatglm.py | 使用ChatGLM模型生成回复，支持单线程和多线程方式。 |
+| request_llms\bridge_chatgpt.py | 基于GPT模型完成对话。 |
+| request_llms\bridge_jittorllms_llama.py | 使用JittorLLMs模型完成对话，支持单线程和多线程方式。 |
+| request_llms\bridge_jittorllms_pangualpha.py | 使用JittorLLMs模型完成对话，基于多进程和多线程方式。 |
+| request_llms\bridge_jittorllms_rwkv.py | 使用JittorLLMs模型完成聊天功能，提供包括历史信息、参数调节等在内的多个功能选项。 |
+| request_llms\bridge_moss.py | 加载Moss模型完成对话功能。 |
+| request_llms\bridge_newbing.py | 使用Newbing聊天机器人进行对话，支持单线程和多线程方式。 |
+| request_llms\bridge_newbingfree.py | 基于Bing chatbot API实现聊天机器人的文本生成功能。 |
+| request_llms\bridge_stackclaude.py | 基于Slack API实现Claude与用户的交互。 |
+| request_llms\bridge_tgui.py | 通过websocket实现聊天机器人与UI界面交互。 |
+| request_llms\edge_gpt.py | 调用Bing chatbot API提供聊天机器人服务。 |
+| request_llms\edge_gpt_free.py | 实现聊天机器人API，采用aiohttp和httpx工具库。 |
+| request_llms\test_llms.py | 对llm模型进行单元测试。 |
 
 ## 接下来请你逐文件分析下面的工程[0/48] 请对下面的程序文件做一个概述: check_proxy.py
 
@@ -129,7 +129,7 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 1. `input_clipping`: 该函数用于裁剪输入文本长度，使其不超过一定的限制。
 2. `request_gpt_model_in_new_thread_with_ui_alive`: 该函数用于请求 GPT 模型并保持用户界面的响应，支持多线程和实时更新用户界面。
 
-这两个函数都依赖于从 `toolbox` 和 `request_llm` 中导入的一些工具函数。函数的输入和输出有详细的描述文档。
+这两个函数都依赖于从 `toolbox` 和 `request_llms` 中导入的一些工具函数。函数的输入和输出有详细的描述文档。
 
 ## [12/48] 请对下面的程序文件做一个概述: crazy_functions\Latex全文润色.py
 
@@ -137,7 +137,7 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 ## [13/48] 请对下面的程序文件做一个概述: crazy_functions\Latex全文翻译.py
 
-这个文件包含两个函数 `Latex英译中` 和 `Latex中译英`，它们都会对整个Latex项目进行翻译。这个文件还包含一个类 `PaperFileGroup`，它拥有一个方法 `run_file_split`，用于把长文本文件分成多个短文件。其中使用了工具库 `toolbox` 中的一些函数和从 `request_llm` 中导入了 `model_info`。接下来的函数把文件读取进来，把它们的注释删除，进行分割，并进行翻译。这个文件还包括了一些异常处理和界面更新的操作。
+这个文件包含两个函数 `Latex英译中` 和 `Latex中译英`，它们都会对整个Latex项目进行翻译。这个文件还包含一个类 `PaperFileGroup`，它拥有一个方法 `run_file_split`，用于把长文本文件分成多个短文件。其中使用了工具库 `toolbox` 中的一些函数和从 `request_llms` 中导入了 `model_info`。接下来的函数把文件读取进来，把它们的注释删除，进行分割，并进行翻译。这个文件还包括了一些异常处理和界面更新的操作。
 
 ## [14/48] 请对下面的程序文件做一个概述: crazy_functions\__init__.py
 
@@ -165,7 +165,7 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 3. read_file_to_chat(chatbot, history, file_name)：从传入的文件中读取内容，解析出对话历史记录并更新聊天显示框。
 
-4. 对话历史存档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port)：一个主要函数，用于保存当前对话记录并提醒用户。如果用户希望加载历史记录，则调用read_file_to_chat()来更新聊天显示框。如果用户希望删除历史记录，调用删除所有本地对话历史记录()函数完成删除操作。
+4. 对话历史存档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, user_request)：一个主要函数，用于保存当前对话记录并提醒用户。如果用户希望加载历史记录，则调用read_file_to_chat()来更新聊天显示框。如果用户希望删除历史记录，调用删除所有本地对话历史记录()函数完成删除操作。
 
 ## [19/48] 请对下面的程序文件做一个概述: crazy_functions\总结word文档.py
 
@@ -187,9 +187,9 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 该程序文件是一个用于批量总结PDF文档的函数插件，使用了pdfminer插件和BeautifulSoup库来提取PDF文档的文本内容，对每个PDF文件分别进行处理并生成中英文摘要。同时，该程序文件还包括一些辅助工具函数和处理异常的装饰器。
 
-## [24/48] 请对下面的程序文件做一个概述: crazy_functions\批量翻译PDF文档_多线程.py
+## [24/48] 请对下面的程序文件做一个概述: crazy_functions\PDF批量翻译.py
 
-这个程序文件是一个Python脚本，文件名为“批量翻译PDF文档_多线程.py”。它主要使用了“toolbox”、“request_gpt_model_in_new_thread_with_ui_alive”、“request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency”、“colorful”等Python库和自定义的模块“crazy_utils”的一些函数。程序实现了一个批量翻译PDF文档的功能，可以自动解析PDF文件中的基础信息，递归地切割PDF文件，翻译和处理PDF论文中的所有内容，并生成相应的翻译结果文件（包括md文件和html文件）。功能比较复杂，其中需要调用多个函数和依赖库，涉及到多线程操作和UI更新。文件中有详细的注释和变量命名，代码比较清晰易读。
+这个程序文件是一个Python脚本，文件名为“PDF批量翻译.py”。它主要使用了“toolbox”、“request_gpt_model_in_new_thread_with_ui_alive”、“request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency”、“colorful”等Python库和自定义的模块“crazy_utils”的一些函数。程序实现了一个批量翻译PDF文档的功能，可以自动解析PDF文件中的基础信息，递归地切割PDF文件，翻译和处理PDF论文中的所有内容，并生成相应的翻译结果文件（包括md文件和html文件）。功能比较复杂，其中需要调用多个函数和依赖库，涉及到多线程操作和UI更新。文件中有详细的注释和变量命名，代码比较清晰易读。
 
 ## [25/48] 请对下面的程序文件做一个概述: crazy_functions\理解PDF文档内容.py
 
@@ -217,7 +217,7 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 ## [31/48] 请对下面的程序文件做一个概述: crazy_functions\读文章写摘要.py
 
-这个程序文件是一个Python模块，文件名为crazy_functions\读文章写摘要.py。该模块包含了两个函数，其中主要函数是"读文章写摘要"函数，其实现了解析给定文件夹中的tex文件，对其中每个文件的内容进行摘要生成，并根据各论文片段的摘要，最终生成全文摘要。第二个函数是"解析Paper"函数，用于解析单篇论文文件。其中用到了一些工具函数和库，如update_ui、CatchException、report_execption、write_results_to_file等。
+这个程序文件是一个Python模块，文件名为crazy_functions\读文章写摘要.py。该模块包含了两个函数，其中主要函数是"读文章写摘要"函数，其实现了解析给定文件夹中的tex文件，对其中每个文件的内容进行摘要生成，并根据各论文片段的摘要，最终生成全文摘要。第二个函数是"解析Paper"函数，用于解析单篇论文文件。其中用到了一些工具函数和库，如update_ui、CatchException、report_exception、write_results_to_file等。
 
 ## [32/48] 请对下面的程序文件做一个概述: crazy_functions\谷歌检索小助手.py
 
@@ -227,19 +227,19 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 该程序文件定义了一个名为高阶功能模板函数的函数，该函数接受多个参数，包括输入的文本、gpt模型参数、插件模型参数、聊天显示框的句柄、聊天历史等，并利用送出请求，使用 Unsplash API 发送相关图片。其中，为了避免输入溢出，函数会在开始时清空历史。函数也有一些 UI 更新的语句。该程序文件还依赖于其他两个模块：CatchException 和 update_ui，以及一个名为 request_gpt_model_in_new_thread_with_ui_alive 的来自 crazy_utils 模块（应该是自定义的工具包）的函数。
 
-## [34/48] 请对下面的程序文件做一个概述: request_llm\bridge_all.py
+## [34/48] 请对下面的程序文件做一个概述: request_llms\bridge_all.py
 
 该文件包含两个函数：predict和predict_no_ui_long_connection，用于基于不同的LLM模型进行对话。该文件还包含一个lazyloadTiktoken类和一个LLM_CATCH_EXCEPTION修饰器函数。其中lazyloadTiktoken类用于懒加载模型的tokenizer，LLM_CATCH_EXCEPTION用于错误处理。整个文件还定义了一些全局变量和模型信息字典，用于引用和配置LLM模型。
 
-## [35/48] 请对下面的程序文件做一个概述: request_llm\bridge_chatglm.py
+## [35/48] 请对下面的程序文件做一个概述: request_llms\bridge_chatglm.py
 
 这是一个Python程序文件，名为`bridge_chatglm.py`，其中定义了一个名为`GetGLMHandle`的类和三个方法：`predict_no_ui_long_connection`、 `predict`和 `stream_chat`。该文件依赖于多个Python库，如`transformers`和`sentencepiece`。该文件实现了一个聊天机器人，使用ChatGLM模型来生成回复，支持单线程和多线程方式。程序启动时需要加载ChatGLM的模型和tokenizer，需要一段时间。在配置文件`config.py`中设置参数会影响模型的内存和显存使用，因此程序可能会导致低配计算机卡死。
 
-## [36/48] 请对下面的程序文件做一个概述: request_llm\bridge_chatgpt.py
+## [36/48] 请对下面的程序文件做一个概述: request_llms\bridge_chatgpt.py
 
-该文件为 Python 代码文件，文件名为 request_llm\bridge_chatgpt.py。该代码文件主要提供三个函数：predict、predict_no_ui和 predict_no_ui_long_connection，用于发送至 chatGPT 并等待回复，获取输出。该代码文件还包含一些辅助函数，用于处理连接异常、生成 HTTP 请求等。该文件的代码架构清晰，使用了多个自定义函数和模块。
+该文件为 Python 代码文件，文件名为 request_llms\bridge_chatgpt.py。该代码文件主要提供三个函数：predict、predict_no_ui和 predict_no_ui_long_connection，用于发送至 chatGPT 并等待回复，获取输出。该代码文件还包含一些辅助函数，用于处理连接异常、生成 HTTP 请求等。该文件的代码架构清晰，使用了多个自定义函数和模块。
 
-## [37/48] 请对下面的程序文件做一个概述: request_llm\bridge_jittorllms_llama.py
+## [37/48] 请对下面的程序文件做一个概述: request_llms\bridge_jittorllms_llama.py
 
 该代码文件实现了一个聊天机器人，其中使用了 JittorLLMs 模型。主要包括以下几个部分：
 1. GetGLMHandle 类：一个进程类，用于加载 JittorLLMs 模型并接收并处理请求。
@@ -248,17 +248,17 @@ toolbox.py是一个工具类库，其中主要包含了一些函数装饰器和�
 
 这个文件中还有一些辅助函数和全局变量，例如 importlib、time、threading 等。
 
-## [38/48] 请对下面的程序文件做一个概述: request_llm\bridge_jittorllms_pangualpha.py
+## [38/48] 请对下面的程序文件做一个概述: request_llms\bridge_jittorllms_pangualpha.py
 
 这个文件是为了实现使用jittorllms（一种机器学习模型）来进行聊天功能的代码。其中包括了模型加载、模型的参数加载、消息的收发等相关操作。其中使用了多进程和多线程来提高性能和效率。代码中还包括了处理依赖关系的函数和预处理函数等。
 
-## [39/48] 请对下面的程序文件做一个概述: request_llm\bridge_jittorllms_rwkv.py
+## [39/48] 请对下面的程序文件做一个概述: request_llms\bridge_jittorllms_rwkv.py
 
 这个文件是一个Python程序，文件名为request_llm\bridge_jittorllms_rwkv.py。它依赖transformers、time、threading、importlib、multiprocessing等库。在文件中，通过定义GetGLMHandle类加载jittorllms模型参数和定义stream_chat方法来实现与jittorllms模型的交互。同时，该文件还定义了predict_no_ui_long_connection和predict方法来处理历史信息、调用jittorllms模型、接收回复信息并输出结果。
 
-## [40/48] 请对下面的程序文件做一个概述: request_llm\bridge_moss.py
+## [40/48] 请对下面的程序文件做一个概述: request_llms\bridge_moss.py
 
-该文件为一个Python源代码文件，文件名为 request_llm\bridge_moss.py。代码定义了一个 GetGLMHandle 类和两个函数 predict_no_ui_long_connection 和 predict。
+该文件为一个Python源代码文件，文件名为 request_llms\bridge_moss.py。代码定义了一个 GetGLMHandle 类和两个函数 predict_no_ui_long_connection 和 predict。
 
 GetGLMHandle 类继承自Process类（多进程），主要功能是启动一个子进程并加载 MOSS 模型参数，通过 Pipe 进行主子进程的通信。该类还定义了 check_dependency、moss_init、run 和 stream_chat 等方法，其中 check_dependency 和 moss_init 是子进程的初始化方法，run 是子进程运行方法，stream_chat 实现了主进程和子进程的交互过程。
 
@@ -266,7 +266,7 @@ GetGLMHandle 类继承自Process类（多进程），主要功能是启动一个
 
 函数 predict 是单线程方法，通过调用 update_ui 将交互过程中 MOSS 的回复实时更新到UI（User Interface）中，并执行一个 named function（additional_fn）指定的函数对输入进行预处理。
 
-## [41/48] 请对下面的程序文件做一个概述: request_llm\bridge_newbing.py
+## [41/48] 请对下面的程序文件做一个概述: request_llms\bridge_newbing.py
 
 这是一个名为`bridge_newbing.py`的程序文件，包含三个部分：
 
@@ -276,11 +276,11 @@ GetGLMHandle 类继承自Process类（多进程），主要功能是启动一个
 
 第三部分定义了一个名为`newbing_handle`的全局变量，并导出了`predict_no_ui_long_connection`和`predict`这两个方法，以供其他程序可以调用。
 
-## [42/48] 请对下面的程序文件做一个概述: request_llm\bridge_newbingfree.py
+## [42/48] 请对下面的程序文件做一个概述: request_llms\bridge_newbingfree.py
 
 这个Python文件包含了三部分内容。第一部分是来自edge_gpt_free.py文件的聊天机器人程序。第二部分是子进程Worker，用于调用主体。第三部分提供了两个函数：predict_no_ui_long_connection和predict用于调用NewBing聊天机器人和返回响应。其中predict函数还提供了一些参数用于控制聊天机器人的回复和更新UI界面。
 
-## [43/48] 请对下面的程序文件做一个概述: request_llm\bridge_stackclaude.py
+## [43/48] 请对下面的程序文件做一个概述: request_llms\bridge_stackclaude.py
 
 这是一个Python源代码文件，文件名为request_llm\bridge_stackclaude.py。代码分为三个主要部分：
 
@@ -290,21 +290,21 @@ GetGLMHandle 类继承自Process类（多进程），主要功能是启动一个
 
 第三部分定义了predict_no_ui_long_connection和predict两个函数，主要用于通过调用ClaudeHandle对象的stream_chat方法来获取Claude的回复，并更新ui以显示相关信息。其中predict函数采用单线程方法，而predict_no_ui_long_connection函数使用多线程方法。
 
-## [44/48] 请对下面的程序文件做一个概述: request_llm\bridge_tgui.py
+## [44/48] 请对下面的程序文件做一个概述: request_llms\bridge_tgui.py
 
 该文件是一个Python代码文件，名为request_llm\bridge_tgui.py。它包含了一些函数用于与chatbot UI交互，并通过WebSocket协议与远程LLM模型通信完成文本生成任务，其中最重要的函数是predict()和predict_no_ui_long_connection()。这个程序还有其他的辅助函数，如random_hash()。整个代码文件在协作的基础上完成了一次修改。
 
-## [45/48] 请对下面的程序文件做一个概述: request_llm\edge_gpt.py
+## [45/48] 请对下面的程序文件做一个概述: request_llms\edge_gpt.py
 
 该文件是一个用于调用Bing chatbot API的Python程序，它由多个类和辅助函数构成，可以根据给定的对话连接在对话中提出问题，使用websocket与远程服务通信。程序实现了一个聊天机器人，可以为用户提供人工智能聊天。
 
-## [46/48] 请对下面的程序文件做一个概述: request_llm\edge_gpt_free.py
+## [46/48] 请对下面的程序文件做一个概述: request_llms\edge_gpt_free.py
 
 该代码文件为一个会话API，可通过Chathub发送消息以返回响应。其中使用了 aiohttp 和 httpx 库进行网络请求并发送。代码中包含了一些函数和常量，多数用于生成请求数据或是请求头信息等。同时该代码文件还包含了一个 Conversation 类，调用该类可实现对话交互。
 
-## [47/48] 请对下面的程序文件做一个概述: request_llm\test_llms.py
+## [47/48] 请对下面的程序文件做一个概述: request_llms\test_llms.py
 
-这个文件是用于对llm模型进行单元测试的Python程序。程序导入一个名为"request_llm.bridge_newbingfree"的模块，然后三次使用该模块中的predict_no_ui_long_connection()函数进行预测，并输出结果。此外，还有一些注释掉的代码段，这些代码段也是关于模型预测的。
+这个文件是用于对llm模型进行单元测试的Python程序。程序导入一个名为"request_llms.bridge_newbingfree"的模块，然后三次使用该模块中的predict_no_ui_long_connection()函数进行预测，并输出结果。此外，还有一些注释掉的代码段，这些代码段也是关于模型预测的。
 
 ## 用一张Markdown表格简要描述以下文件的功能：
 check_proxy.py, colorful.py, config.py, config_private.py, core_functional.py, crazy_functional.py, main.py, multi_language.py, theme.py, toolbox.py, crazy_functions\crazy_functions_test.py, crazy_functions\crazy_utils.py, crazy_functions\Latex全文润色.py, crazy_functions\Latex全文翻译.py, crazy_functions\__init__.py, crazy_functions\下载arxiv论文翻译摘要.py。根据以上分析，用一句话概括程序的整体功能。
@@ -331,7 +331,7 @@ check_proxy.py, colorful.py, config.py, config_private.py, core_functional.py, c
 这些程序源文件提供了基础的文本和语言处理功能、工具函数和高级插件，使 Chatbot 能够处理各种复杂的学术文本问题，包括润色、翻译、搜索、下载、解析等。
 
 ## 用一张Markdown表格简要描述以下文件的功能：
-crazy_functions\代码重写为全英文_多线程.py, crazy_functions\图片生成.py, crazy_functions\对话历史存档.py, crazy_functions\总结word文档.py, crazy_functions\总结音视频.py, crazy_functions\批量Markdown翻译.py, crazy_functions\批量总结PDF文档.py, crazy_functions\批量总结PDF文档pdfminer.py, crazy_functions\批量翻译PDF文档_多线程.py, crazy_functions\理解PDF文档内容.py, crazy_functions\生成函数注释.py, crazy_functions\联网的ChatGPT.py, crazy_functions\解析JupyterNotebook.py, crazy_functions\解析项目源代码.py, crazy_functions\询问多个大语言模型.py, crazy_functions\读文章写摘要.py。根据以上分析，用一句话概括程序的整体功能。
+crazy_functions\代码重写为全英文_多线程.py, crazy_functions\图片生成.py, crazy_functions\对话历史存档.py, crazy_functions\总结word文档.py, crazy_functions\总结音视频.py, crazy_functions\批量Markdown翻译.py, crazy_functions\批量总结PDF文档.py, crazy_functions\批量总结PDF文档pdfminer.py, crazy_functions\PDF批量翻译.py, crazy_functions\理解PDF文档内容.py, crazy_functions\生成函数注释.py, crazy_functions\联网的ChatGPT.py, crazy_functions\解析JupyterNotebook.py, crazy_functions\解析项目源代码.py, crazy_functions\询问多个大语言模型.py, crazy_functions\读文章写摘要.py。根据以上分析，用一句话概括程序的整体功能。
 
 | 文件名 | 功能简述 |
 | --- | --- |
@@ -343,7 +343,7 @@ crazy_functions\代码重写为全英文_多线程.py, crazy_functions\图片生
 | 批量Markdown翻译.py | 将指定目录下的Markdown文件进行中英文翻译 |
 | 批量总结PDF文档.py | 对PDF文件进行切割和摘要生成 |
 | 批量总结PDF文档pdfminer.py | 对PDF文件进行文本内容的提取和摘要生成 |
-| 批量翻译PDF文档_多线程.py | 将指定目录下的PDF文件进行中英文翻译 |
+| PDF批量翻译.py | 将指定目录下的PDF文件进行中英文翻译 |
 | 理解PDF文档内容.py | 对PDF文件进行摘要生成和问题解答 |
 | 生成函数注释.py | 自动生成Python函数的注释 |
 | 联网的ChatGPT.py | 使用网络爬虫和ChatGPT模型进行聊天回答 |
@@ -355,24 +355,24 @@ crazy_functions\代码重写为全英文_多线程.py, crazy_functions\图片生
 概括程序的整体功能：提供了一系列处理文本、文件和代码的功能，使用了各类语言模型、多线程、网络请求和数据解析技术来提高效率和精度。
 
 ## 用一张Markdown表格简要描述以下文件的功能：
-crazy_functions\谷歌检索小助手.py, crazy_functions\高级功能函数模板.py, request_llm\bridge_all.py, request_llm\bridge_chatglm.py, request_llm\bridge_chatgpt.py, request_llm\bridge_jittorllms_llama.py, request_llm\bridge_jittorllms_pangualpha.py, request_llm\bridge_jittorllms_rwkv.py, request_llm\bridge_moss.py, request_llm\bridge_newbing.py, request_llm\bridge_newbingfree.py, request_llm\bridge_stackclaude.py, request_llm\bridge_tgui.py, request_llm\edge_gpt.py, request_llm\edge_gpt_free.py, request_llm\test_llms.py。根据以上分析，用一句话概括程序的整体功能。
+crazy_functions\谷歌检索小助手.py, crazy_functions\高级功能函数模板.py, request_llms\bridge_all.py, request_llms\bridge_chatglm.py, request_llms\bridge_chatgpt.py, request_llms\bridge_jittorllms_llama.py, request_llms\bridge_jittorllms_pangualpha.py, request_llms\bridge_jittorllms_rwkv.py, request_llms\bridge_moss.py, request_llms\bridge_newbing.py, request_llms\bridge_newbingfree.py, request_llms\bridge_stackclaude.py, request_llms\bridge_tgui.py, request_llms\edge_gpt.py, request_llms\edge_gpt_free.py, request_llms\test_llms.py。根据以上分析，用一句话概括程序的整体功能。
 
 | 文件名 | 功能描述 |
 | --- | --- |
 | crazy_functions\谷歌检索小助手.py | 提供谷歌学术搜索页面中相关文章的元数据信息。 |
 | crazy_functions\高级功能函数模板.py | 使用Unsplash API发送相关图片以回复用户的输入。 |
-| request_llm\bridge_all.py | 基于不同LLM模型进行对话。 |
-| request_llm\bridge_chatglm.py | 使用ChatGLM模型生成回复，支持单线程和多线程方式。 |
-| request_llm\bridge_chatgpt.py | 基于GPT模型完成对话。 |
-| request_llm\bridge_jittorllms_llama.py | 使用JittorLLMs模型完成对话，支持单线程和多线程方式。 |
-| request_llm\bridge_jittorllms_pangualpha.py | 使用JittorLLMs模型完成对话，基于多进程和多线程方式。 |
-| request_llm\bridge_jittorllms_rwkv.py | 使用JittorLLMs模型完成聊天功能，提供包括历史信息、参数调节等在内的多个功能选项。 |
-| request_llm\bridge_moss.py | 加载Moss模型完成对话功能。 |
-| request_llm\bridge_newbing.py | 使用Newbing聊天机器人进行对话，支持单线程和多线程方式。 |
-| request_llm\bridge_newbingfree.py | 基于Bing chatbot API实现聊天机器人的文本生成功能。 |
-| request_llm\bridge_stackclaude.py | 基于Slack API实现Claude与用户的交互。 |
-| request_llm\bridge_tgui.py | 通过websocket实现聊天机器人与UI界面交互。 |
-| request_llm\edge_gpt.py | 调用Bing chatbot API提供聊天机器人服务。 |
-| request_llm\edge_gpt_free.py | 实现聊天机器人API，采用aiohttp和httpx工具库。 |
-| request_llm\test_llms.py | 对llm模型进行单元测试。 |
+| request_llms\bridge_all.py | 基于不同LLM模型进行对话。 |
+| request_llms\bridge_chatglm.py | 使用ChatGLM模型生成回复，支持单线程和多线程方式。 |
+| request_llms\bridge_chatgpt.py | 基于GPT模型完成对话。 |
+| request_llms\bridge_jittorllms_llama.py | 使用JittorLLMs模型完成对话，支持单线程和多线程方式。 |
+| request_llms\bridge_jittorllms_pangualpha.py | 使用JittorLLMs模型完成对话，基于多进程和多线程方式。 |
+| request_llms\bridge_jittorllms_rwkv.py | 使用JittorLLMs模型完成聊天功能，提供包括历史信息、参数调节等在内的多个功能选项。 |
+| request_llms\bridge_moss.py | 加载Moss模型完成对话功能。 |
+| request_llms\bridge_newbing.py | 使用Newbing聊天机器人进行对话，支持单线程和多线程方式。 |
+| request_llms\bridge_newbingfree.py | 基于Bing chatbot API实现聊天机器人的文本生成功能。 |
+| request_llms\bridge_stackclaude.py | 基于Slack API实现Claude与用户的交互。 |
+| request_llms\bridge_tgui.py | 通过websocket实现聊天机器人与UI界面交互。 |
+| request_llms\edge_gpt.py | 调用Bing chatbot API提供聊天机器人服务。 |
+| request_llms\edge_gpt_free.py | 实现聊天机器人API，采用aiohttp和httpx工具库。 |
+| request_llms\test_llms.py | 对llm模型进行单元测试。 |
 | 程序整体功能 | 实现不同种类的聊天机器人，可以根据输入进行文本生成。 |

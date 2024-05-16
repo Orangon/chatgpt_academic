@@ -1,6 +1,6 @@
-import glob, time, os, re, logging
-from toolbox import update_ui, trimmed_format_exc, gen_time_str, disable_auto_promotion
-from toolbox import CatchException, report_execption, get_log_folder
+import glob, shutil, os, re, logging
+from toolbox import update_ui, trimmed_format_exc, gen_time_str
+from toolbox import CatchException, report_exception, get_log_folder
 from toolbox import write_history_to_file, promote_file_to_downloadzone
 fast_debug = False
 
@@ -13,12 +13,12 @@ class PaperFileGroup():
         self.sp_file_tag = []
 
         # count_token
-        from request_llm.bridge_all import model_info
+        from request_llms.bridge_all import model_info
         enc = model_info["gpt-3.5-turbo"]['tokenizer']
         def get_token_num(txt): return len(enc.encode(txt, disallowed_special=()))
         self.get_token_num = get_token_num
 
-    def run_file_split(self, max_token_limit=1900):
+    def run_file_split(self, max_token_limit=2048):
         """
         将长文本分离开来
         """
@@ -28,8 +28,8 @@ class PaperFileGroup():
                 self.sp_file_index.append(index)
                 self.sp_file_tag.append(self.file_paths[index])
             else:
-                from .crazy_utils import breakdown_txt_to_satisfy_token_limit_for_pdf
-                segments = breakdown_txt_to_satisfy_token_limit_for_pdf(file_content, self.get_token_num, max_token_limit)
+                from crazy_functions.pdf_fns.breakdown_txt import breakdown_text_to_satisfy_token_limit
+                segments = breakdown_text_to_satisfy_token_limit(file_content, max_token_limit)
                 for j, segment in enumerate(segments):
                     self.sp_file_contents.append(segment)
                     self.sp_file_index.append(index)
@@ -53,7 +53,7 @@ class PaperFileGroup():
 def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en'):
     from .crazy_utils import request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency
 
-    #  <-------- 读取Markdown文件，删除其中的所有注释 ----------> 
+    #  <-------- 读取Markdown文件，删除其中的所有注释 ---------->
     pfg = PaperFileGroup()
 
     for index, fp in enumerate(file_manifest):
@@ -63,23 +63,23 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
             pfg.file_paths.append(fp)
             pfg.file_contents.append(file_content)
 
-    #  <-------- 拆分过长的Markdown文件 ----------> 
-    pfg.run_file_split(max_token_limit=1500)
+    #  <-------- 拆分过长的Markdown文件 ---------->
+    pfg.run_file_split(max_token_limit=2048)
     n_split = len(pfg.sp_file_contents)
 
-    #  <-------- 多线程翻译开始 ----------> 
+    #  <-------- 多线程翻译开始 ---------->
     if language == 'en->zh':
-        inputs_array = ["This is a Markdown file, translate it into Chinese, do not modify any existing Markdown commands:" + 
+        inputs_array = ["This is a Markdown file, translate it into Chinese, do NOT modify any existing Markdown commands, do NOT use code wrapper (```), ONLY answer me with translated results:" +
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
     elif language == 'zh->en':
-        inputs_array = [f"This is a Markdown file, translate it into English, do not modify any existing Markdown commands:" + 
+        inputs_array = [f"This is a Markdown file, translate it into English, do NOT modify any existing Markdown commands, do NOT use code wrapper (```), ONLY answer me with translated results:" +
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
     else:
-        inputs_array = [f"This is a Markdown file, translate it into {language}, do not modify any existing Markdown commands, only answer me with translated results:" + 
+        inputs_array = [f"This is a Markdown file, translate it into {language}, do NOT modify any existing Markdown commands, do NOT use code wrapper (```), ONLY answer me with translated results:" +
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
@@ -99,11 +99,16 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
         for i_say, gpt_say in zip(gpt_response_collection[0::2], gpt_response_collection[1::2]):
             pfg.sp_file_result.append(gpt_say)
         pfg.merge_result()
-        pfg.write_result(language)
+        output_file_arr = pfg.write_result(language)
+        for output_file in output_file_arr:
+            promote_file_to_downloadzone(output_file, chatbot=chatbot)
+            if 'markdown_expected_output_path' in plugin_kwargs:
+                expected_f_name = plugin_kwargs['markdown_expected_output_path']
+                shutil.copyfile(output_file, expected_f_name)
     except:
         logging.error(trimmed_format_exc())
 
-    #  <-------- 整理结果，退出 ----------> 
+    #  <-------- 整理结果，退出 ---------->
     create_report_file_name = gen_time_str() + f"-chatgpt.md"
     res = write_history_to_file(gpt_response_collection, file_basename=create_report_file_name)
     promote_file_to_downloadzone(res, chatbot=chatbot)
@@ -118,7 +123,7 @@ def get_files_from_everything(txt, preference=''):
     if txt.startswith('http'):
         import requests
         from toolbox import get_conf
-        proxies, = get_conf('proxies')
+        proxies = get_conf('proxies')
         # 网络的远程文件
         if preference == 'Github':
             logging.info('正在从github下载资源 ...')
@@ -153,19 +158,18 @@ def get_files_from_everything(txt, preference=''):
 
 
 @CatchException
-def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
+def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, user_request):
     # 基本信息：功能、贡献者
     chatbot.append([
         "函数插件功能？",
         "对整个Markdown项目进行翻译。函数插件贡献者: Binary-Husky"])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
-    disable_auto_promotion(chatbot)
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
     try:
         import tiktoken
     except:
-        report_execption(chatbot, history,
+        report_exception(chatbot, history,
                          a=f"解析项目: {txt}",
                          b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
@@ -177,12 +181,12 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
     if not success:
         # 什么都没有
         if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -193,19 +197,18 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
 
 
 @CatchException
-def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
+def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, user_request):
     # 基本信息：功能、贡献者
     chatbot.append([
         "函数插件功能？",
         "对整个Markdown项目进行翻译。函数插件贡献者: Binary-Husky"])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
-    disable_auto_promotion(chatbot)
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
     try:
         import tiktoken
     except:
-        report_execption(chatbot, history,
+        report_exception(chatbot, history,
                          a=f"解析项目: {txt}",
                          b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
@@ -215,30 +218,29 @@ def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
     if not success:
         # 什么都没有
         if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='zh->en')
 
 
 @CatchException
-def Markdown翻译指定语言(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
+def Markdown翻译指定语言(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, user_request):
     # 基本信息：功能、贡献者
     chatbot.append([
         "函数插件功能？",
         "对整个Markdown项目进行翻译。函数插件贡献者: Binary-Husky"])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
-    disable_auto_promotion(chatbot)
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
     try:
         import tiktoken
     except:
-        report_execption(chatbot, history,
+        report_exception(chatbot, history,
                          a=f"解析项目: {txt}",
                          b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
@@ -248,14 +250,14 @@ def Markdown翻译指定语言(txt, llm_kwargs, plugin_kwargs, chatbot, history,
     if not success:
         # 什么都没有
         if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
+        report_exception(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    
+
     if ("advanced_arg" in plugin_kwargs) and (plugin_kwargs["advanced_arg"] == ""): plugin_kwargs.pop("advanced_arg")
     language = plugin_kwargs.get("advanced_arg", 'Chinese')
     yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language=language)
