@@ -151,11 +151,8 @@ multi-language
 request_llms/moss
 media
 flagged
-<<<<<<< HEAD
 request_llm/ChatGLM-6b-onnx-u8s8
 .DS_Store
-=======
 request_llms/ChatGLM-6b-onnx-u8s8
 .pre-commit-config.yaml
 themes/common.js.min.*.js
->>>>>>> 881a596a30c868217eb2e4aef62aedd405313cca
