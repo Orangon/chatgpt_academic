@@ -17,7 +17,7 @@ def get_core_functions():
                             text_show_english=
                                 r"Below is a paragraph from an academic paper. Polish the writing to meet the academic style, "
                                 r"improve the spelling, grammar, clarity, concision and overall readability. When necessary, rewrite the whole sentence. "
-                                r"Firstly, you should provide the polished paragraph. "
+                                r"Firstly, you should provide the polished paragraph (in English). "
                                 r"Secondly, you should list all your modification and explain the reasons to do so in markdown table.",
                             text_show_chinese=
                                 r"作为一名中文学术论文写作改进助理，你的任务是改进所提供文本的拼写、语法、清晰、简洁和整体可读性，"
@@ -33,6 +33,8 @@ def get_core_functions():
             "AutoClearHistory": False,
             # [6] 文本预处理 （可选参数，默认 None，举例：写个函数移除所有的换行符）
             "PreProcess": None,
+            # [7] 模型选择 （可选参数。如不设置，则使用当前全局模型；如设置，则用指定模型覆盖全局模型。）
+            # "ModelOverride": "gpt-3.5-turbo", # 主要用途：强制点击此基础功能按钮时，使用指定的模型。
         },
 
 

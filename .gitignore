@@ -131,6 +131,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# macOS files
+.DS_Store
+
 .vscode
 .idea
 
@@ -155,4 +158,11 @@ request_llm/ChatGLM-6b-onnx-u8s8
 .DS_Store
 request_llms/ChatGLM-6b-onnx-u8s8
 .pre-commit-config.yaml
-themes/common.js.min.*.js
+test.*
+temp.*
+objdump*
+*.min.*.js
+TODO
+experimental_mods
+search_results
+
